@@ -114,23 +114,23 @@
   renderSeats();
 
   const eventSelect = document.getElementById("event_id");
-  const typeSelect = document.getElementById("ticket_type");
+  const ticketTypeSelect = document.getElementById("ticket_type");
   function syncTicketTypes() {
-    if (!eventSelect || !typeSelect) return;
+    if (!eventSelect || !ticketTypeSelect) return;
     const selected = eventSelect.selectedOptions[0];
     const allowStudent = !!(selected && selected.dataset.student === "1");
     const allowChild = !!(selected && selected.dataset.child === "1");
-    typeSelect.querySelectorAll("option").forEach(function (option) {
+    ticketTypeSelect.querySelectorAll("option").forEach(function (option) {
       let allowed = true;
       if (option.value === "student") allowed = allowStudent;
       if (option.value === "child") allowed = allowChild;
       option.hidden = !allowed;
       option.disabled = !allowed;
     });
-    const current = typeSelect.selectedOptions[0];
-    if (current && current.disabled) typeSelect.value = "adult";
+    const current = ticketTypeSelect.selectedOptions[0];
+    if (current && current.disabled) ticketTypeSelect.value = "adult";
   }
-  if (eventSelect && typeSelect) {
+  if (eventSelect && ticketTypeSelect) {
     eventSelect.addEventListener("change", syncTicketTypes);
     syncTicketTypes();
   }
