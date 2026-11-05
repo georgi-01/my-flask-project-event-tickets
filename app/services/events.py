@@ -103,7 +103,7 @@ def _fields(data: dict) -> dict:
     if len(performer) < 2:
         raise ValidationError("Името на изпълнителя е твърде кратко.")
     starts_at = parse_datetime(data.get("starts_at"))
-    price = parse_decimal(data.get("adult_price"), "Въведете цена.")
+    price = parse_decimal(data.get("price"), "Въведете цена.")
     if price <= 0 or price > 10000:
         raise ValidationError("Цената трябва да е между 0,01 и 10000.")
     description = clean_text(data.get("description"), 500)
@@ -111,7 +111,7 @@ def _fields(data: dict) -> dict:
         "venue_id": venue_id,
         "performer": performer,
         "starts_at": starts_at,
-        "adult_price": price,
+        "price": price,
         "description": description,
     }
 

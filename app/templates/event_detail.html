@@ -8,7 +8,7 @@
     <p class="performer">{{ event.performer }}</p>
     <p class="meta">{{ event.venue_type_label }} · {{ event.city }}, {{ event.country }} · {{ event.starts_label }}</p>
     <p class="meta">{{ event.address }}</p>
-    <p class="price-line">от {{ event.adult_price_label }}</p>
+    <p class="price-line">от {{ event.price_label }}</p>
     {% if event.free_student_entry or event.bottle_discount %}
       <p class="badges">
         {% if event.free_student_entry %}<span class="badge">Студенти безплатно</span>{% endif %}
@@ -24,9 +24,9 @@
     <h2 class="section">Билет</h2>
     <div class="type-picker" data-exclusive>
       <label class="type-option">
-        <input type="radio" name="ticket_type" value="adult" required data-price="{{ event.adult_price }}" data-label="Възрастен" {% if form.ticket_type == 'adult' %}checked{% endif %}>
+        <input type="radio" name="ticket_type" value="adult" required data-price="{{ event.price }}" data-label="Възрастен" {% if form.ticket_type == 'adult' %}checked{% endif %}>
         <span>Възрастен</span>
-        <small>{{ event.adult_price_label }}</small>
+        <small>{{ event.price_label }}</small>
       </label>
       {% if event.student_price is not none %}
         <label class="type-option">

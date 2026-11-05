@@ -32,7 +32,7 @@ def _event_form(data):
         "venue_id": "" if venue_id in (None, "") else str(venue_id),
         "performer": data.get("performer", ""),
         "starts_input": data.get("starts_input") or data.get("starts_at") or "",
-        "adult_price": data.get("adult_price", ""),
+        "price": data.get("price", ""),
         "description": data.get("description", ""),
     }
 

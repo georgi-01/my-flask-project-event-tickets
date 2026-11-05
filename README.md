@@ -57,7 +57,7 @@ curl -k -X POST https://localhost:8444/api/venues \
 ```bash
 curl -k -X POST https://localhost:8444/api/events \
   -H 'Content-Type: application/json' \
-  -d '{"venue_id":1,"performer":"Киара","starts_at":"2026-11-07T23:00","adult_price":"30.00","description":"Нощ с Киара."}'
+  -d '{"venue_id":1,"performer":"Киара","starts_at":"2026-11-07T23:00","price":"15.00","description":"Нощ с Киара."}'
 ```
 
 ```bash

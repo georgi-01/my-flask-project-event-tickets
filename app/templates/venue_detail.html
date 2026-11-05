@@ -28,7 +28,7 @@
       <div>
         <h2><a href="{{ url_for('pages.event_detail', event_id=event.id) }}">{{ event.venue_name }}</a></h2>
         <p class="performer">{{ event.performer }}</p>
-        <p class="meta">{{ event.starts_label }} · {{ event.adult_price_label }}</p>
+        <p class="meta">{{ event.starts_label }} · {{ event.price_label }}</p>
       </div>
     </article>
   {% endfor %}

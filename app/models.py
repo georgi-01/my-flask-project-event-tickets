@@ -43,7 +43,7 @@ class Event(Base):
     venue_id: Mapped[int] = mapped_column(ForeignKey("venues.id", ondelete="CASCADE"), index=True)
     performer: Mapped[str] = mapped_column(String(120))
     starts_at: Mapped[datetime] = mapped_column(DateTime, index=True)
-    adult_price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
+    price: Mapped[Decimal] = mapped_column(Numeric(10, 2))
     description: Mapped[str] = mapped_column(Text, default="")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 

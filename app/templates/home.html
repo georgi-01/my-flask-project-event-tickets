@@ -7,9 +7,9 @@
 </section>
 
 <form class="finder" method="get" action="{{ url_for('pages.home') }}">
+  <label class="finder-label" for="q">Търсене</label>
   <div class="finder-row">
     <div class="field grow">
-      <label for="q">Търсене</label>
       <input id="q" name="q" value="{{ filters.q }}" placeholder="напр. Ялта или Киара">
     </div>
     <button class="btn secondary" type="button" id="filter-toggle" aria-expanded="{{ 'true' if filters_open else 'false' }}" aria-controls="filter-panel">Филтри</button>
@@ -85,7 +85,7 @@
           <div class="body">
             <div class="topline">
               <h2 class="venue-name">{{ event.venue_name }}</h2>
-              <strong class="price">{{ event.adult_price_label }}</strong>
+              <strong class="price">{{ event.price_label }}</strong>
             </div>
             <p class="performer">{{ event.performer }}</p>
             <p class="meta">{{ event.city }} · {{ event.venue_type_label }}</p>

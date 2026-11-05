@@ -58,14 +58,14 @@ def test_event_crud_and_missing_venue(client):
             "venue_id": 99,
             "performer": "Киара",
             "starts_at": "2026-11-07T23:00",
-            "adult_price": "30,00",
+            "price": "30,00",
         },
     )
     assert missing.status_code == 400
     venue = make_venue(client)
     event = make_event(client, venue)
     assert event["performer"] == "Киара"
-    assert event["adult_price"] == "30.00"
+    assert event["price"] == "30.00"
     assert event["student_price"] == "0.00"
     assert event["child_price"] is None
     renamed = client.put(
@@ -74,7 +74,7 @@ def test_event_crud_and_missing_venue(client):
             "venue_id": venue["id"],
             "performer": "Галин",
             "starts_at": "2026-11-08T22:30",
-            "adult_price": "35.00",
+            "price": "35.00",
             "description": "Клубна вечер.",
         },
     )
@@ -131,7 +131,7 @@ def test_student_hidden_rule_and_half_child_price(client):
         free_student_entry=False,
         bottle_discount=False,
     )
-    event = make_event(client, venue, performer="Азис", adult_price="25.00", starts_at="2026-11-15T21:00")
+    event = make_event(client, venue, performer="Азис", price="25.00", starts_at="2026-11-15T21:00")
     assert event["student_price"] is None
     assert event["child_price"] == "12.50"
     desk = make_desk(client)
@@ -205,7 +205,7 @@ def test_bad_json_and_event_search(client):
         address="бул. „Княз Борис I“ 65",
     )
     make_event(client, venue, performer="Киара")
-    make_event(client, other, performer="Азис", starts_at="2026-12-12T23:00", adult_price="28.00")
+    make_event(client, other, performer="Азис", starts_at="2026-12-12T23:00", price="28.00")
     found = client.get("/api/events?q=киара").get_json()
     assert len(found) == 1
     assert found[0]["venue_name"] == "Ялта"

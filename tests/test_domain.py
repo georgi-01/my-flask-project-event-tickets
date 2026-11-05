@@ -9,9 +9,9 @@ from app.seed import DESKS, EVENTS, TICKETS, VENUES
 
 
 def test_price_and_datetime_formatting():
-    assert format_price(Decimal("30")) == "30,00 лв."
-    assert format_price("1234.5") == "1 234,50 лв."
-    assert format_price(0) == "0,00 лв."
+    assert format_price(Decimal("30")) == "30,00 €"
+    assert format_price("1234.5") == "1 234,50 €"
+    assert format_price(0) == "0,00 €"
     moment = datetime(2026, 11, 7, 23, 0)
     assert format_datetime(moment) == "7 ноември 2026, 23:00"
     assert parse_decimal("30,00") == Decimal("30.00")

@@ -64,7 +64,7 @@
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     });
-    summary.textContent = count + " × " + checked.dataset.label + " · " + formatted + " лв.";
+    summary.textContent = count + " × " + checked.dataset.label + " · " + formatted + " €";
   }
 
   function lockType(selected) {
@@ -112,6 +112,28 @@
   });
   if (seatsInput) seatsInput.addEventListener("input", renderSeats);
   renderSeats();
+
+  const eventSelect = document.getElementById("event_id");
+  const typeSelect = document.getElementById("ticket_type");
+  function syncTicketTypes() {
+    if (!eventSelect || !typeSelect) return;
+    const selected = eventSelect.selectedOptions[0];
+    const allowStudent = !!(selected && selected.dataset.student === "1");
+    const allowChild = !!(selected && selected.dataset.child === "1");
+    typeSelect.querySelectorAll("option").forEach(function (option) {
+      let allowed = true;
+      if (option.value === "student") allowed = allowStudent;
+      if (option.value === "child") allowed = allowChild;
+      option.hidden = !allowed;
+      option.disabled = !allowed;
+    });
+    const current = typeSelect.selectedOptions[0];
+    if (current && current.disabled) typeSelect.value = "adult";
+  }
+  if (eventSelect && typeSelect) {
+    eventSelect.addEventListener("change", syncTicketTypes);
+    syncTicketTypes();
+  }
 
   const scroller = document.querySelector("main");
   const toTop = document.getElementById("to-top");

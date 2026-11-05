@@ -145,7 +145,7 @@ def delete_ticket(ticket_id: int) -> None:
 
 
 def price_for(event, ticket_type: str) -> Decimal:
-    adult = money(event.adult_price)
+    adult = money(event.price)
     if ticket_type == "adult":
         return adult
     if ticket_type == "student":

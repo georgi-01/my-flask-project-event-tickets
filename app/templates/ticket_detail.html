@@ -10,7 +10,7 @@
     <div><dt>Купувач</dt><dd>{{ ticket.buyer_name }}</dd></div>
     <div><dt>Каса</dt><dd>{{ ticket.cash_desk_name }}</dd></div>
     <div><dt>Статус</dt><dd>{{ ticket.status_label }}</dd></div>
-    <div><dt>Цена</dt><dd>{{ ticket.price_label }}</dd></div>
+    <div><dt>Цена, €</dt><dd>{{ ticket.price_label }}</dd></div>
   </dl>
   <div class="actions">
     <a class="btn secondary" href="{{ url_for('pages.ticket_edit', ticket_id=ticket.id) }}">Промяна</a>

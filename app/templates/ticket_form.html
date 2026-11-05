@@ -9,7 +9,7 @@
     <select id="event_id" name="event_id" required>
       <option value="" disabled {% if not form.event_id %}selected{% endif %}>напр. Ялта — Киара</option>
       {% for event in events %}
-        <option value="{{ event.id }}" {% if form.event_id == event.id|string %}selected{% endif %}>{{ event.venue_name }} — {{ event.performer }} · {{ event.starts_label }}</option>
+        <option value="{{ event.id }}" data-student="{{ '1' if event.student_price is not none else '0' }}" data-child="{{ '1' if event.child_price is not none else '0' }}" {% if form.event_id == event.id|string %}selected{% endif %}>{{ event.venue_name }} — {{ event.performer }} · {{ event.starts_label }}</option>
       {% endfor %}
     </select>
   </div>

@@ -39,6 +39,7 @@ def parse_decimal(value, message: str = "Въведете цена.") -> Decimal
         raw = (
             str(value)
             .strip()
+            .replace("€", "")
             .replace("лв.", "")
             .replace("лв", "")
             .replace(" ", "")

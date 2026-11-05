@@ -82,6 +82,27 @@ def test_ticket_buttons_follow_venue_rules(client):
     assert "Дете" in club_html
 
 
+def test_ticket_form_follows_event_rules(client):
+    disco = make_venue(client, name="Ялта")
+    bar = make_venue(
+        client,
+        name="Спутник",
+        venue_type="bar",
+        free_student_entry=False,
+        bottle_discount=False,
+        address="ул. „Шишман“ 22",
+    )
+    make_event(client, disco, performer="Киара", starts_at="2026-11-07T23:00")
+    make_event(client, bar, performer="Азис", starts_at="2026-11-15T21:00", price="13.00")
+    html = client.get("/tickets/new").get_data(as_text=True)
+    assert 'data-student="1"' in html
+    assert 'data-student="0"' in html
+    assert 'data-child="0"' in html
+    assert 'data-child="1"' in html
+    detail = client.get("/events/1").get_data(as_text=True)
+    assert "30,00 €" in detail
+
+
 def test_form_pages_and_missing(client):
     venue_form = client.get("/venues/new").get_data(as_text=True)
     assert 'placeholder="напр. Ялта"' in venue_form

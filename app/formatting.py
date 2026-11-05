@@ -47,7 +47,7 @@ def format_price(value) -> str:
     sign = "−" if number < 0 else ""
     whole, frac = f"{abs(number):.2f}".split(".")
     grouped = f"{int(whole):,}".replace(",", " ")
-    return f"{sign}{grouped},{frac} лв."
+    return f"{sign}{grouped},{frac} €"
 
 
 def format_datetime(value: datetime) -> str:
@@ -76,7 +76,7 @@ def venue_dict(venue) -> dict:
 
 def event_dict(event) -> dict:
     venue = event.venue
-    adult = money(event.adult_price)
+    adult = money(event.price)
     student = Decimal("0.00") if venue.free_student_entry else None
     child = None if venue.venue_type == "disco" else money(adult / Decimal(2))
     return {
@@ -95,8 +95,8 @@ def event_dict(event) -> dict:
         "day": f"{event.starts_at.day:02d}",
         "month_short": MONTHS_SHORT[event.starts_at.month - 1],
         "time_label": event.starts_at.strftime("%H:%M"),
-        "adult_price": money_str(adult),
-        "adult_price_label": format_price(adult),
+        "price": money_str(adult),
+        "price_label": format_price(adult),
         "student_price": None if student is None else money_str(student),
         "student_price_label": None if student is None else format_price(student),
         "child_price": None if child is None else money_str(child),

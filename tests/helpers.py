@@ -20,7 +20,7 @@ def make_event(client, venue, **overrides):
         "venue_id": venue["id"],
         "performer": "Киара",
         "starts_at": "2026-11-07T23:00",
-        "adult_price": "30.00",
+        "price": "30.00",
         "description": "Нощ с Киара.",
     }
     payload.update(overrides)

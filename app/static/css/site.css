@@ -193,8 +193,31 @@ main {
 .stack { margin: 8px 0 0; color: #8a6a52; }
 
 .finder { margin: 18px auto 8px; }
-.finder-row { display: flex; gap: 10px; align-items: flex-end; }
-.finder-row .field { flex: 1; }
+.finder-label {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: var(--brown);
+}
+.finder-row { display: flex; gap: 10px; align-items: stretch; }
+.finder-row .field {
+  flex: 1;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+}
+.finder-row .btn {
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  margin: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 
 .field {
   background: var(--paper);
