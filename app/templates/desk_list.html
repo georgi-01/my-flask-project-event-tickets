@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Каси — Билетница{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1 class="page-title">Каси</h1>
+  <a class="btn" href="{{ url_for('pages.desk_new') }}">Нова каса</a>
+</div>
+{% if desks %}
+  {% for desk in desks %}
+    <article class="slip">
+      <div>
+        <h2><a href="{{ url_for('pages.desk_detail', desk_id=desk.id) }}">{{ desk.name }}</a></h2>
+        <p class="performer">{{ desk.operator_name }}</p>
+        <p class="meta">{{ desk.city }}{% if desk.address %} · {{ desk.address }}{% endif %}{% if desk.venue_name %} · {{ desk.venue_name }}{% endif %}</p>
+      </div>
+      <a href="{{ url_for('pages.desk_edit', desk_id=desk.id) }}">Промяна</a>
+    </article>
+  {% endfor %}
+{% else %}
+  <p class="empty">Няма каси.</p>
+{% endif %}
+{% endblock %}

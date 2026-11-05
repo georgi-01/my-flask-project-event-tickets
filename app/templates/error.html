@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{{ title }} — Билетница{% endblock %}
+{% block content %}
+<article class="sheet">
+  <h1 class="page-title">{{ title }}</h1>
+  <p>{{ message }}</p>
+  <p class="back"><a href="{{ url_for('pages.home') }}">Програма</a></p>
+</article>
+{% endblock %}

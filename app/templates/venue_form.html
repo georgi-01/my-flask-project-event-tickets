@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}{% if mode == 'edit' %}Промяна на място{% else %}Ново място{% endif %} — Билетница{% endblock %}
+{% block content %}
+<h1 class="page-title">{% if mode == 'edit' %}Промяна на място{% else %}Ново място{% endif %}</h1>
+{% if error %}<p class="flash error">{{ error }}</p>{% endif %}
+<form method="post" action="{% if mode == 'edit' %}{{ url_for('pages.venue_update', venue_id=venue_id) }}{% else %}{{ url_for('pages.venue_create') }}{% endif %}">
+  <div class="field">
+    <label for="name">Име <span class="star">*</span></label>
+    <input id="name" name="name" required value="{{ form.name }}" placeholder="напр. Ялта">
+  </div>
+  <div class="field">
+    <label for="venue-type">Вид <span class="star">*</span></label>
+    <select id="venue-type" name="venue_type" required>
+      <option value="" disabled {% if not form.venue_type %}selected{% endif %}>напр. дискотека</option>
+      {% for code, label in venue_types %}
+        <option value="{{ code }}" {% if form.venue_type == code %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="city">Град <span class="star">*</span></label>
+    <input id="city" name="city" list="cities" required value="{{ form.city }}" placeholder="напр. София">
+    <datalist id="cities">
+      <option value="София"></option>
+      <option value="Пловдив"></option>
+      <option value="Варна"></option>
+      <option value="Белград"></option>
+    </datalist>
+  </div>
+  <div class="field">
+    <label for="address">Адрес <span class="star">*</span></label>
+    <input id="address" name="address" required value="{{ form.address }}" placeholder="напр. ул. „Шишман“ 22">
+  </div>
+  <div class="field">
+    <label for="country">Държава <span class="star">*</span></label>
+    <select id="country" name="country" required>
+      <option value="" disabled {% if not form.country %}selected{% endif %}>напр. България</option>
+      <option value="България" {% if form.country == 'България' %}selected{% endif %}>България</option>
+      <option value="Сърбия" {% if form.country == 'Сърбия' %}selected{% endif %}>Сърбия</option>
+      {% if form.country and form.country not in ['България', 'Сърбия'] %}
+        <option value="{{ form.country }}" selected>{{ form.country }}</option>
+      {% endif %}
+    </select>
+  </div>
+  <div class="field">
+    <label for="description">Описание</label>
+    <textarea id="description" name="description" placeholder="напр. Дискотека до НДК.">{{ form.description }}</textarea>
+  </div>
+  <div class="field check">
+    <label class="checkline" for="free_student_entry">
+      <input id="free_student_entry" type="checkbox" name="free_student_entry" value="1" data-discount {% if form.free_student_entry %}checked{% endif %}>
+      Безплатен студентски вход
+    </label>
+  </div>
+  <div class="field check">
+    <label class="checkline" for="bottle_discount">
+      <input id="bottle_discount" type="checkbox" name="bottle_discount" value="1" data-discount {% if form.bottle_discount %}checked{% endif %}>
+      −50% на бутилка
+    </label>
+  </div>
+  <div class="actions">
+    <button class="btn" type="submit">Запиши</button>
+    <a class="btn secondary" href="{{ url_for('pages.venue_list') }}">Отказ</a>
+  </div>
+</form>
+{% if mode == 'edit' %}
+  <form class="after" method="post" action="{{ url_for('pages.venue_delete', venue_id=venue_id) }}" onsubmit="return confirm('Да се изтрие ли мястото?');">
+    <button class="btn danger" type="submit">Изтрий</button>
+  </form>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Билет {{ ticket.seat_code }} — Билетница{% endblock %}
+{% block content %}
+<p class="back"><a href="{{ url_for('pages.ticket_list') }}">Билети</a></p>
+<article class="sheet">
+  <h1 class="page-title">{{ ticket.seat_code }} · {{ ticket.ticket_type_label }}</h1>
+  <p class="performer">{{ ticket.venue_name }}</p>
+  <p class="meta">{{ ticket.performer }} · {{ ticket.starts_label }}</p>
+  <dl class="facts">
+    <div><dt>Купувач</dt><dd>{{ ticket.buyer_name }}</dd></div>
+    <div><dt>Каса</dt><dd>{{ ticket.cash_desk_name }}</dd></div>
+    <div><dt>Статус</dt><dd>{{ ticket.status_label }}</dd></div>
+    <div><dt>Цена</dt><dd>{{ ticket.price_label }}</dd></div>
+  </dl>
+  <div class="actions">
+    <a class="btn secondary" href="{{ url_for('pages.ticket_edit', ticket_id=ticket.id) }}">Промяна</a>
+    <a class="btn secondary" href="{{ url_for('pages.event_detail', event_id=ticket.event_id) }}">Събитието</a>
+    <form method="post" action="{{ url_for('pages.ticket_delete', ticket_id=ticket.id) }}" onsubmit="return confirm('Да се изтрие ли билетът?');">
+      <button class="btn danger" type="submit">Изтрий</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

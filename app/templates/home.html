@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% block title %}Билетница{% endblock %}
+{% block content %}
+<section class="hero">
+  <h1>Билетница</h1>
+  <p class="stack">Flask и Gunicorn · PostgreSQL · Nginx · RabbitMQ · worker · Dozzle</p>
+</section>
+
+<form class="finder" method="get" action="{{ url_for('pages.home') }}">
+  <div class="finder-row">
+    <div class="field grow">
+      <label for="q">Търсене</label>
+      <input id="q" name="q" value="{{ filters.q }}" placeholder="напр. Ялта или Киара">
+    </div>
+    <button class="btn secondary" type="button" id="filter-toggle" aria-expanded="{{ 'true' if filters_open else 'false' }}" aria-controls="filter-panel">Филтри</button>
+  </div>
+  <div id="filter-panel" class="filter-panel" {% if not filters_open %}hidden{% endif %}>
+    <div class="field">
+      <label for="city">Град</label>
+      <select id="city" name="city">
+        <option value="">всички градове</option>
+        {% for city in cities %}
+          <option value="{{ city }}" {% if filters.city == city %}selected{% endif %}>{{ city }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="venue_type">Вид</label>
+      <select id="venue_type" name="venue_type">
+        <option value="">всички видове</option>
+        {% for code, label in venue_types %}
+          <option value="{{ code }}" {% if filters.venue_type == code %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="country">Държава</label>
+      <select id="country" name="country">
+        <option value="">всички държави</option>
+        {% for country in countries %}
+          <option value="{{ country }}" {% if filters.country == country %}selected{% endif %}>{{ country }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="field">
+      <label for="date">Дата</label>
+      <input id="date" type="date" name="date" value="{{ filters.date }}">
+    </div>
+    <div class="field check">
+      <label class="checkline" for="student">
+        <input id="student" type="checkbox" name="student" value="1" {% if filters.student %}checked{% endif %}>
+        Безплатен студентски вход
+      </label>
+    </div>
+    <div class="field check">
+      <label class="checkline" for="bottle">
+        <input id="bottle" type="checkbox" name="bottle" value="1" {% if filters.bottle %}checked{% endif %}>
+        −50% бутилка
+      </label>
+    </div>
+    <div class="filter-actions">
+      <button class="btn" type="submit">Покажи</button>
+      <a class="btn secondary" href="{{ url_for('pages.home') }}">Изчисти</a>
+    </div>
+  </div>
+</form>
+
+<p class="count">{{ count_text }}</p>
+<p class="manage">
+  <a href="{{ url_for('pages.event_new') }}">Ново събитие</a>
+  <a href="{{ url_for('pages.venue_list') }}">Места</a>
+</p>
+{% if error %}<p class="flash error">{{ error }}</p>{% endif %}
+
+{% if events %}
+  <div class="cards">
+    {% for event in events %}
+      <article class="ticket-card">
+        <a class="stretch" href="{{ url_for('pages.event_detail', event_id=event.id) }}">
+          <div class="stub">
+            <span class="day">{{ event.day }}</span>
+            <span class="mon">{{ event.month_short }}</span>
+            <span class="time">{{ event.time_label }}</span>
+          </div>
+          <div class="body">
+            <div class="topline">
+              <h2 class="venue-name">{{ event.venue_name }}</h2>
+              <strong class="price">{{ event.adult_price_label }}</strong>
+            </div>
+            <p class="performer">{{ event.performer }}</p>
+            <p class="meta">{{ event.city }} · {{ event.venue_type_label }}</p>
+            {% if event.free_student_entry or event.bottle_discount %}
+              <p class="badges">
+                {% if event.free_student_entry %}<span class="badge">Студенти безплатно</span>{% endif %}
+                {% if event.bottle_discount %}<span class="badge">−50% бутилка</span>{% endif %}
+              </p>
+            {% endif %}
+          </div>
+        </a>
+        <a class="card-edit" href="{{ url_for('pages.event_edit', event_id=event.id) }}">Промяна</a>
+      </article>
+    {% endfor %}
+  </div>
+{% elif filters_open or filters.q %}
+  <p class="empty">Няма събития за тези филтри.</p>
+{% else %}
+  <p class="empty">Няма събития.</p>
+{% endif %}
+{% endblock %}

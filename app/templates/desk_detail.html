@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}{{ desk.name }} — Билетница{% endblock %}
+{% block content %}
+<p class="back"><a href="{{ url_for('pages.desk_list') }}">Каси</a></p>
+<article class="sheet">
+  <h1 class="page-title">{{ desk.name }}</h1>
+  <p class="performer">{{ desk.operator_name }}</p>
+  <dl class="facts">
+    <div><dt>Град</dt><dd>{{ desk.city }}</dd></div>
+    <div><dt>Адрес</dt><dd>{{ desk.address }}</dd></div>
+    <div><dt>Място</dt><dd>{{ desk.venue_name or "—" }}</dd></div>
+  </dl>
+  <div class="actions">
+    <a class="btn secondary" href="{{ url_for('pages.desk_edit', desk_id=desk.id) }}">Промяна</a>
+    <form method="post" action="{{ url_for('pages.desk_delete', desk_id=desk.id) }}" onsubmit="return confirm('Да се изтрие ли касата?');">
+      <button class="btn danger" type="submit">Изтрий</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

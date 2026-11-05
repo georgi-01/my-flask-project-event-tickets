@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="640" viewBox="0 0 1080 640">
+  <rect width="1080" height="640" fill="#f4efe6"/>
+  <text x="40" y="42" fill="#6a4b32" font-family="sans-serif" font-size="28" font-weight="700">8;5B=8F0</text>
+  <g font-family="sans-serif" font-size="15" fill="#5c4636">
+    <g>
+      <rect x="40" y="70" width="250" height="250" rx="14" fill="#fbf7f1" stroke="#c9855a" stroke-width="2"/>
+      <text x="58" y="100" font-size="20" font-weight="700" fill="#6a4b32">OAB></text>
+      <text x="58" y="132">8<5</text>
+      <text x="58" y="156">284</text>
+      <text x="58" y="180">3@04</text>
+      <text x="58" y="204">04@5A</text>
+      <text x="58" y="228">4J@6020</text>
+      <text x="58" y="252">ABC45=BA:8 2E>4</text>
+      <text x="58" y="276">50% 1CB8;:0</text>
+    </g>
+    <g>
+      <rect x="400" y="70" width="250" height="210" rx="14" fill="#fbf7f1" stroke="#c9855a" stroke-width="2"/>
+      <text x="418" y="100" font-size="20" font-weight="700" fill="#6a4b32">!J18B85</text>
+      <text x="418" y="132"><OAB></text>
+      <text x="418" y="156">87?J;=8B5;</text>
+      <text x="418" y="180">=0G0;></text>
+      <text x="418" y="204">F5=0 70 2J7@0AB5=</text>
+      <text x="418" y="228">>?8A0=85</text>
+    </g>
+    <g>
+      <rect x="780" y="70" width="250" height="250" rx="14" fill="#fbf7f1" stroke="#c9855a" stroke-width="2"/>
+      <text x="798" y="100" font-size="20" font-weight="700" fill="#6a4b32">8;5B</text>
+      <text x="798" y="132">AJ18B85</text>
+      <text x="798" y="156">:0A0</text>
+      <text x="798" y="180">284</text>
+      <text x="798" y="204">A540;:0</text>
+      <text x="798" y="228">F5=0</text>
+      <text x="798" y="252">:C?C20G</text>
+      <text x="798" y="276">AB0BCA</text>
+    </g>
+    <g>
+      <rect x="400" y="390" width="250" height="190" rx="14" fill="#fbf7f1" stroke="#c9855a" stroke-width="2"/>
+      <text x="418" y="420" font-size="20" font-weight="700" fill="#6a4b32">0A0</text>
+      <text x="418" y="452">8<5</text>
+      <text x="418" y="476">3@04</text>
+      <text x="418" y="500">04@5A</text>
+      <text x="418" y="524">>?5@0B>@</text>
+      <text x="418" y="548"><OAB></text>
+    </g>
+    <g>
+      <rect x="40" y="390" width="250" height="190" rx="14" fill="#fbf7f1" stroke="#c9855a" stroke-width="2"/>
+      <text x="58" y="420" font-size="20" font-weight="700" fill="#6a4b32">:B82=>AB</text>
+      <text x="58" y="452">459AB285</text>
+      <text x="58" y="476">>15:B</text>
+      <text x="58" y="500">=><5@</text>
+      <text x="58" y="524">B5:AB</text>
+      <text x="58" y="548">2@5<5</text>
+    </g>
+    <text x="300" y="180" fill="#6a4b32" font-weight="700">1</text>
+    <text x="360" y="180" fill="#6a4b32" font-weight="700">*</text>
+    <line x1="290" y1="170" x2="400" y2="170" stroke="#6a4b32" stroke-width="2"/>
+    <text x="670" y="180" fill="#6a4b32" font-weight="700">1</text>
+    <text x="740" y="180" fill="#6a4b32" font-weight="700">*</text>
+    <line x1="650" y1="170" x2="780" y2="170" stroke="#6a4b32" stroke-width="2"/>
+    <text x="670" y="470" fill="#6a4b32" font-weight="700">1</text>
+    <text x="740" y="400" fill="#6a4b32" font-weight="700">*</text>
+    <path d="M650 480 H720 V190" fill="none" stroke="#6a4b32" stroke-width="2"/>
+    <text x="300" y="470" fill="#6a4b32" font-weight="700">0..1</text>
+    <text x="360" y="500" fill="#6a4b32" font-weight="700">*</text>
+    <line x1="290" y1="500" x2="400" y2="480" stroke="#6a4b32" stroke-width="2"/>
+    <text x="58" y="610">=52=8:JB =O<0 2J=H5= :;NG 8 >AB020 A;54 87B@820=5.</text>
+  </g>
+</svg>

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Активност — Билетница{% endblock %}
+{% block content %}
+<h1 class="page-title">Активност</h1>
+{% if rows %}
+  {% for row in rows %}
+    <article class="slip journal">
+      <div>
+        <p class="meta">{{ row.created_label }}</p>
+        <h2>{{ row.summary }}</h2>
+        <p class="badges">
+          <span class="badge">{{ row.action_label }}</span>
+          <span class="badge">{{ row.entity_label }} {{ row.entity_id }}</span>
+        </p>
+      </div>
+    </article>
+  {% endfor %}
+{% else %}
+  <p class="empty">Няма записи.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% block title %}{{ event.venue_name }} — {{ event.performer }} — Билетница{% endblock %}
+{% block content %}
+<article class="sheet">
+  <p class="back"><a href="{{ url_for('pages.home') }}">Програма</a></p>
+  <header class="event-head">
+    <h1>{{ event.venue_name }}</h1>
+    <p class="performer">{{ event.performer }}</p>
+    <p class="meta">{{ event.venue_type_label }} · {{ event.city }}, {{ event.country }} · {{ event.starts_label }}</p>
+    <p class="meta">{{ event.address }}</p>
+    <p class="price-line">от {{ event.adult_price_label }}</p>
+    {% if event.free_student_entry or event.bottle_discount %}
+      <p class="badges">
+        {% if event.free_student_entry %}<span class="badge">Студенти безплатно</span>{% endif %}
+        {% if event.bottle_discount %}<span class="badge">−50% бутилка</span>{% endif %}
+      </p>
+    {% endif %}
+    {% if event.description %}<p>{{ event.description }}</p>{% endif %}
+  </header>
+
+  {% if error %}<p class="flash error">{{ error }}</p>{% endif %}
+
+  <form method="post" action="{{ url_for('pages.event_buy', event_id=event.id) }}">
+    <h2 class="section">Билет</h2>
+    <div class="type-picker" data-exclusive>
+      <label class="type-option">
+        <input type="radio" name="ticket_type" value="adult" required data-price="{{ event.adult_price }}" data-label="Възрастен" {% if form.ticket_type == 'adult' %}checked{% endif %}>
+        <span>Възрастен</span>
+        <small>{{ event.adult_price_label }}</small>
+      </label>
+      {% if event.student_price is not none %}
+        <label class="type-option">
+          <input type="radio" name="ticket_type" value="student" data-price="{{ event.student_price }}" data-label="Студент" {% if form.ticket_type == 'student' %}checked{% endif %}>
+          <span>Студент</span>
+          <small>{% if event.student_price == '0.00' %}безплатно{% else %}{{ event.student_price_label }}{% endif %}</small>
+        </label>
+      {% endif %}
+      {% if event.child_price is not none %}
+        <label class="type-option">
+          <input type="radio" name="ticket_type" value="child" data-price="{{ event.child_price }}" data-label="Дете" {% if form.ticket_type == 'child' %}checked{% endif %}>
+          <span>Дете</span>
+          <small>{{ event.child_price_label }}</small>
+        </label>
+      {% endif %}
+    </div>
+    <button class="reset-type" type="button" data-reset-type hidden>Смени вида</button>
+
+    <h2 class="section">Седалки</h2>
+    <p class="stage">СЦЕНА</p>
+    <div class="seat-map" aria-label="Схема на местата">
+      {% for group in seat_rows %}
+        <div class="seat-row">
+          <span class="row-label">{{ group.row }}</span>
+          {% for seat in group.seats %}
+            <button class="seat" type="button" data-seat="{{ seat.code }}" aria-label="Ред {{ group.row }} място {{ seat.number }}" {% if seat.taken %}disabled{% endif %}>{{ seat.number }}</button>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="field">
+      <label for="seats">Седалки <span class="star">*</span></label>
+      <input id="seats" name="seats" required value="{{ form.seats }}" placeholder="напр. A-1, A-2">
+    </div>
+    <div class="field">
+      <label for="buyer_name">Купувач <span class="star">*</span></label>
+      <input id="buyer_name" name="buyer_name" required value="{{ form.buyer_name }}" placeholder="напр. Иван Петров">
+    </div>
+    <div class="field">
+      <label for="cash_desk_id">Каса <span class="star">*</span></label>
+      {% if desks %}
+        <select id="cash_desk_id" name="cash_desk_id" required>
+          <option value="" disabled {% if not form.cash_desk_id %}selected{% endif %}>напр. Каса Център</option>
+          {% for desk in desks %}
+            <option value="{{ desk.id }}" {% if form.cash_desk_id == desk.id|string %}selected{% endif %}>{{ desk.name }} · {{ desk.city }}</option>
+          {% endfor %}
+        </select>
+      {% else %}
+        <p class="empty">Няма каса. <a href="{{ url_for('pages.desk_new') }}">Нова каса</a></p>
+      {% endif %}
+    </div>
+    <p id="price-summary" class="summary">Изберете вид и седалки.</p>
+    {% if desks %}<button class="btn" type="submit">Купи</button>{% endif %}
+  </form>
+
+  <div class="actions">
+    <a class="btn secondary" href="{{ url_for('pages.event_edit', event_id=event.id) }}">Промяна</a>
+    <a class="btn secondary" href="{{ url_for('pages.venue_detail', venue_id=event.venue_id) }}">Мястото</a>
+    <form method="post" action="{{ url_for('pages.event_delete', event_id=event.id) }}" onsubmit="return confirm('Да се изтрие ли събитието?');">
+      <button class="btn danger" type="submit">Изтрий</button>
+    </form>
+  </div>
+</article>
+{% endblock %}

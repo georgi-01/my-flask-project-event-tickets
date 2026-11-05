@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}{{ venue.name }} — Билетница{% endblock %}
+{% block content %}
+<p class="back"><a href="{{ url_for('pages.venue_list') }}">Места</a></p>
+<article class="sheet">
+  <h1 class="page-title">{{ venue.name }}</h1>
+  <p class="performer">{{ venue.venue_type_label }}</p>
+  <p class="meta">{{ venue.city }}, {{ venue.country }}</p>
+  <p class="meta">{{ venue.address }}</p>
+  {% if venue.description %}<p>{{ venue.description }}</p>{% endif %}
+  {% if venue.free_student_entry or venue.bottle_discount %}
+    <p class="badges">
+      {% if venue.free_student_entry %}<span class="badge">Студенти безплатно</span>{% endif %}
+      {% if venue.bottle_discount %}<span class="badge">−50% бутилка</span>{% endif %}
+    </p>
+  {% endif %}
+  <div class="actions">
+    <a class="btn secondary" href="{{ url_for('pages.venue_edit', venue_id=venue.id) }}">Промяна</a>
+    <form method="post" action="{{ url_for('pages.venue_delete', venue_id=venue.id) }}" onsubmit="return confirm('Да се изтрие ли мястото?');">
+      <button class="btn danger" type="submit">Изтрий</button>
+    </form>
+  </div>
+</article>
+<h2 class="section">Събития</h2>
+{% if events %}
+  {% for event in events %}
+    <article class="slip">
+      <div>
+        <h2><a href="{{ url_for('pages.event_detail', event_id=event.id) }}">{{ event.venue_name }}</a></h2>
+        <p class="performer">{{ event.performer }}</p>
+        <p class="meta">{{ event.starts_label }} · {{ event.adult_price_label }}</p>
+      </div>
+    </article>
+  {% endfor %}
+{% else %}
+  <p class="empty">Няма събития.</p>
+{% endif %}
+{% endblock %}

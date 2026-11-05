@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Билети — Билетница{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1 class="page-title">Билети</h1>
+  <a class="btn" href="{{ url_for('pages.ticket_new') }}">Нов билет</a>
+</div>
+<p class="count">{{ count_text }}</p>
+{% if tickets %}
+  {% for ticket in tickets %}
+    <article class="slip">
+      <div>
+        <h2><a href="{{ url_for('pages.ticket_detail', ticket_id=ticket.id) }}">{{ ticket.seat_code }} · {{ ticket.ticket_type_label }}</a></h2>
+        <p class="performer">{{ ticket.venue_name }}</p>
+        <p class="meta">{{ ticket.performer }} · {{ ticket.city }} · {{ ticket.starts_label }}</p>
+        <p class="meta">{{ ticket.buyer_name }} · {{ ticket.cash_desk_name }} · {{ ticket.status_label }}</p>
+      </div>
+      <div class="slip-side">
+        <strong class="price">{{ ticket.price_label }}</strong>
+        <a href="{{ url_for('pages.ticket_edit', ticket_id=ticket.id) }}">Промяна</a>
+      </div>
+    </article>
+  {% endfor %}
+{% else %}
+  <p class="empty">Няма билети.</p>
+{% endif %}
+{% endblock %}

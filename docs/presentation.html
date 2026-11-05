@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Билетница</title>
+  <style>
+    @font-face {
+      font-family: "Source Sans 3";
+      font-style: normal;
+      font-weight: 400;
+      src: url("../app/static/fonts/source-sans-3-cyrillic-400-normal.woff2") format("woff2");
+      unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+    @font-face {
+      font-family: "Source Sans 3";
+      font-style: normal;
+      font-weight: 700;
+      src: url("../app/static/fonts/source-sans-3-cyrillic-700-normal.woff2") format("woff2");
+      unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+    }
+    @font-face {
+      font-family: "Source Sans 3";
+      font-style: normal;
+      font-weight: 400;
+      src: url("../app/static/fonts/source-sans-3-latin-400-normal.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2212;
+    }
+    @font-face {
+      font-family: "Source Sans 3";
+      font-style: normal;
+      font-weight: 700;
+      src: url("../app/static/fonts/source-sans-3-latin-700-normal.woff2") format("woff2");
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+2000-206F, U+20AC, U+2212;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f4efe6;
+      color: #5c4636;
+      font-family: "Source Sans 3", sans-serif;
+    }
+    .slide {
+      display: none;
+      min-height: 100vh;
+      padding: 64px 8vw 96px;
+    }
+    .slide.active { display: flex; flex-direction: column; justify-content: center; }
+    h1 { margin: 0 0 12px; font-size: 4rem; color: #6a4b32; letter-spacing: -0.03em; }
+    h2 { margin: 0 0 18px; font-size: 2.4rem; color: #6a4b32; }
+    p, li { font-size: 1.45rem; line-height: 1.4; }
+    ul { margin: 0; padding-left: 1.2em; }
+    img { width: min(920px, 100%); background: #fbf7f1; border-radius: 16px; }
+    code { font-family: "Source Sans 3", sans-serif; font-weight: 700; }
+    .bar {
+      position: fixed;
+      left: 0; right: 0; bottom: 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 8vw;
+      background: #e7d8c3;
+    }
+    button {
+      border: 0;
+      border-radius: 10px;
+      background: #6a4b32;
+      color: #fbf7f1;
+      font: inherit;
+      font-weight: 700;
+      padding: 8px 14px;
+      cursor: pointer;
+    }
+    @media print {
+      .slide { display: block; page-break-after: always; min-height: auto; }
+      .bar { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <section class="slide active">
+    <h1>Билетница</h1>
+    <p>Билети за дискотека, клуб, бар, механа, кръчма и концерт.</p>
+    <p>София, Пловдив, Варна и Белград.</p>
+  </section>
+  <section class="slide">
+    <h2>Програма</h2>
+    <ul>
+      <li>Картите са правоъгълни билети, по две на ред.</li>
+      <li>Името на мястото е основно.</li>
+      <li>Изпълнителят е по-малък и получер отдолу.</li>
+      <li>Търсенето е видимо. Филтрите са зад бутон „Филтри“.</li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Модел</h2>
+    <img src="class-diagram.svg" alt="Класове Място, Събитие, Билет, Каса и Активност">
+  </section>
+  <section class="slide">
+    <h2>Покупка</h2>
+    <ul>
+      <li>Видове: Възрастен, Студент, Дете. Изборът е един.</li>
+      <li>Студент се показва само при безплатен студентски вход.</li>
+      <li>Дете се скрива за дискотека.</li>
+      <li>Отстъпките са само за част от дискотеките и клубовете. Купе е без тях.</li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Слоеве</h2>
+    <ul>
+      <li>Страница и REST викат услуга.</li>
+      <li>Услугата проверява данните и праща съобщение в RabbitMQ.</li>
+      <li>Хранилището пише през SQLAlchemy.</li>
+      <li>Моделът е Място, Събитие, Билет, Каса, Активност.</li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Стек</h2>
+    <ul>
+      <li>Flask и Gunicorn, две уеб реплики.</li>
+      <li>PostgreSQL, Nginx, HTTPS със self-signed сертификат.</li>
+      <li>HTTP се пренасочва към HTTPS.</li>
+      <li>RabbitMQ, worker и Dozzle.</li>
+    </ul>
+  </section>
+  <section class="slide">
+    <h2>Дневник</h2>
+    <p>Worker записва всяко съобщение в Активност.</p>
+    <p>Записът остава, след като място, събитие или билет бъде изтрито.</p>
+  </section>
+  <section class="slide">
+    <h2>Команди</h2>
+    <p><code>./install.sh</code></p>
+    <ul>
+      <li>https://localhost:8444</li>
+      <li>http://localhost:8081</li>
+      <li>http://localhost:9998</li>
+      <li>http://localhost:15673</li>
+      <li><code>pytest</code></li>
+    </ul>
+  </section>
+  <div class="bar">
+    <button type="button" id="prev">Назад</button>
+    <span id="count"></span>
+    <button type="button" id="next">Напред</button>
+  </div>
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    let index = 0;
+    const count = document.getElementById("count");
+    function show(next) {
+      index = (next + slides.length) % slides.length;
+      slides.forEach((slide, i) => slide.classList.toggle("active", i === index));
+      count.textContent = (index + 1) + " / " + slides.length;
+    }
+    document.getElementById("prev").addEventListener("click", () => show(index - 1));
+    document.getElementById("next").addEventListener("click", () => show(index + 1));
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") show(index + 1);
+      if (event.key === "ArrowLeft") show(index - 1);
+    });
+    show(0);
+  </script>
+</body>
+</html>

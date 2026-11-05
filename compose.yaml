@@ -1,0 +1,138 @@
+name: bileti
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: bileti-db
+    env_file: .env
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 3s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+    networks: [bileti]
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: bileti-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+    ports:
+      - "15673:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 5s
+      timeout: 10s
+      retries: 20
+      start_period: 20s
+    restart: unless-stopped
+    networks: [bileti]
+
+  worker:
+    build: .
+    container_name: bileti-worker
+    hostname: worker
+    env_file: .env
+    command: ["python", "-m", "app.worker"]
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
+    networks: [bileti]
+
+  seed:
+    build: .
+    container_name: bileti-seed
+    hostname: seed
+    env_file: .env
+    command: ["python", "-m", "app.seed"]
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      worker:
+        condition: service_started
+    restart: "no"
+    networks: [bileti]
+
+  web1:
+    build: .
+    container_name: bileti-web1
+    hostname: web1
+    env_file: .env
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--access-logfile", "-", "--error-logfile", "-", "app.wsgi:application"]
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+    restart: unless-stopped
+    networks: [bileti]
+
+  web2:
+    build: .
+    container_name: bileti-web2
+    hostname: web2
+    env_file: .env
+    command: ["gunicorn", "--bind", "0.0.0.0:8000", "--workers", "2", "--access-logfile", "-", "--error-logfile", "-", "app.wsgi:application"]
+    depends_on:
+      db:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      seed:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 15s
+    restart: unless-stopped
+    networks: [bileti]
+
+  nginx:
+    build: ./nginx
+    container_name: bileti-nginx
+    depends_on:
+      web1:
+        condition: service_healthy
+      web2:
+        condition: service_healthy
+    ports:
+      - "8444:443"
+      - "8081:80"
+    restart: unless-stopped
+    networks: [bileti]
+
+  dozzle:
+    image: amir20/dozzle:latest
+    container_name: bileti-dozzle
+    ports:
+      - "9998:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    restart: unless-stopped
+    networks: [bileti]
+
+networks:
+  bileti:
+    name: bileti_net
+
+volumes:
+  pgdata:

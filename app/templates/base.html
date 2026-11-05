@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Билетница{% endblock %}</title>
+  <link rel="icon" href="{{ url_for('static', filename='favicon.svg') }}" type="image/svg+xml">
+  <link rel="preload" href="{{ url_for('static', filename='fonts/source-sans-3-cyrillic-400-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{{ url_for('static', filename='fonts/source-sans-3-cyrillic-700-normal.woff2') }}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+</head>
+<body>
+  <div class="shell">
+    <a class="skip" href="#content">Към съдържанието</a>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="{{ url_for('pages.home') }}">
+          <img src="{{ url_for('static', filename='favicon.svg') }}" alt="" width="28" height="28">
+          Билетница
+        </a>
+        <nav class="nav" aria-label="Основно">
+          <a class="{% if nav == 'program' %}active{% endif %}" href="{{ url_for('pages.home') }}">Програма</a>
+          <a class="{% if nav == 'tickets' %}active{% endif %}" href="{{ url_for('pages.ticket_list') }}">Билети</a>
+          <a class="{% if nav == 'desks' %}active{% endif %}" href="{{ url_for('pages.desk_list') }}">Каси</a>
+          <a class="{% if nav == 'activity' %}active{% endif %}" href="{{ url_for('pages.activity_list') }}">Активност</a>
+        </nav>
+      </div>
+    </header>
+    <main id="content">
+      <div class="wrap">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% for category, message in messages %}
+            <p class="flash {{ category }}">{{ message }}</p>
+          {% endfor %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+      </div>
+    </main>
+    <footer class="site-footer">
+      {% for label, value in footer %}
+        <p><b>{{ label }}</b> <span>{{ value }}</span></p>
+      {% endfor %}
+    </footer>
+  </div>
+  <button id="to-top" type="button" hidden>Нагоре</button>
+  <script src="{{ url_for('static', filename='js/site.js') }}"></script>
+</body>
+</html>

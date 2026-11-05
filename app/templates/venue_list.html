@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Места — Билетница{% endblock %}
+{% block content %}
+<div class="page-head">
+  <h1 class="page-title">Места</h1>
+  <a class="btn" href="{{ url_for('pages.venue_new') }}">Ново място</a>
+</div>
+{% if venues %}
+  {% for venue in venues %}
+    <article class="slip">
+      <div>
+        <h2><a href="{{ url_for('pages.venue_detail', venue_id=venue.id) }}">{{ venue.name }}</a></h2>
+        <p class="performer">{{ venue.venue_type_label }}</p>
+        <p class="meta">{{ venue.city }}, {{ venue.country }} · {{ venue.address }}</p>
+        {% if venue.free_student_entry or venue.bottle_discount %}
+          <p class="badges">
+            {% if venue.free_student_entry %}<span class="badge">Студенти безплатно</span>{% endif %}
+            {% if venue.bottle_discount %}<span class="badge">−50% бутилка</span>{% endif %}
+          </p>
+        {% endif %}
+      </div>
+      <a href="{{ url_for('pages.venue_edit', venue_id=venue.id) }}">Промяна</a>
+    </article>
+  {% endfor %}
+{% else %}
+  <p class="empty">Няма места.</p>
+{% endif %}
+{% endblock %}
